@@ -9,15 +9,28 @@ END;
 -- Switch to the Company database
 USE Company;
 
--- Create Employee table
+-- Create Departments table
+
+CREATE TABLE Departments
+(
+    [DepartmentID] INT IDENTITY(1,1) PRIMARY KEY,
+    [Name] NVARCHAR(50) NOT NULL,
+    [Manager] NVARCHAR(50) NOT NULL
+)
+
+-- Create Employees table
 
 CREATE TABLE Employees
 (
     [EmployeeId] INT IDENTITY(1,1) PRIMARY KEY, 
     [Name] NVARCHAR(50) NOT NULL,
     [JobTitle] NVARCHAR(50) NOT NULL,
-    [Email] NVARCHAR(50) NOT NULL UNIQUE
+    [Email] NVARCHAR(50) NOT NULL UNIQUE,
+    [DepartmentID] INT,
+    CONSTRAINT [FK_Employees_Departments] FOREIGN KEY(DepartmentID)  REFERENCES Departments(DepartmentID)
 )
+
+-- Create Projects table
 
 CREATE TABLE Projects
 (
@@ -25,11 +38,4 @@ CREATE TABLE Projects
     [Name] NVARCHAR(50) NOT NULL,
     [Description] NVARCHAR(250) NOT NULL,
     [Deadline] DATE NOT NULL
-)
-
-CREATE TABLE Department
-(
-    [DepartmentID] INT IDENTITY(1,1) PRIMARY KEY,
-    [Name] NVARCHAR(50) NOT NULL,
-    [Manager] NVARCHAR(50) NOT NULL
 )
