@@ -24,12 +24,14 @@ WHERE ol.LocationName = 'UK Branch'
 
 --4. **Highest Paid Employee**:
 --  Find the employee with the highest salary.
+
 SELECT *
 FROM Employees
 WHERE Salary = (SELECT MAX(Salary) FROM Employees)
 
 --5. **Average Salary by Department**:
 --   Calculate the average salary for each department.
+
 SELECT d.DepartmentName, AVG(e.Salary) AS [Average Salary]
 FROM Employees AS e
     JOIN Departments AS d ON e.DepartmentID = d.DepartmentID
@@ -37,6 +39,7 @@ GROUP BY d.DepartmentName
 
 --6. **Employees Without a Manager**:
 --   Retrieve the names of employees who are not managers.
+
 SELECT FirstName, LastName
 FROM Employees
 WHERE EmployeeID NOT IN (SELECT ManagerID FROM Departments)
@@ -44,11 +47,32 @@ WHERE EmployeeID NOT IN (SELECT ManagerID FROM Departments)
 --7. **Departments and Their Managers**:
 --   Display each department name along with the full name of its manager.
 
+SELECT d.DepartmentName, e.FirstName + ' ' + e.LastName AS [Department Manager]
+FROM Departments AS d
+    JOIN Employees AS e ON d.ManagerID = e.EmployeeID
+
 --8. **Employees in a Specific Country**:
 --   Find all employees working in offices located in "Bulgaria".
+
+SELECT c.CountryName AS [Office Country], e.FirstName + ' ' + e.LastName as [Employee Name]
+FROM Employees AS e
+    JOIN OfficeLocations AS ol ON e.LocationID = ol.LocationID
+    JOIN Countries AS c ON ol.CountryID = c.CountryID
+WHERE c.CountryName = 'Bulgaria'
+
 
 --9. **Total Salaries by Country**:
 --   Calculate the total salaries of employees working in each country.
 
+SELECT c.CountryName, SUM(Salary) AS [Total Salaries]
+FROM Employees AS e
+    JOIN OfficeLocations AS ol ON e.LocationID = ol.LocationID
+    JOIN Countries AS c ON ol.CountryID = c.CountryID
+GROUP BY c.CountryName
+
 --10. **Employees Earning Above Average Salary**:
 --    Find employees who earn above the average salary for the company.
+
+SELECT *
+FROM Employees
+WHERE Salary > (Select AVG(Salary) FROM Employees)
