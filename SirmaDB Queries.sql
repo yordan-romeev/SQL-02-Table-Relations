@@ -4,13 +4,23 @@ USE SirmaAcademy
 --1. **List All Employees**:
 --   Retrieve all employees' full names, job titles, and their salaries.
 
-
+SELECT FirstName + ' ' + LastName AS [Full Name], JobTitle, Salary
+FROM Employees
 
 --2. **Employees by Department**:
 --   Display the names of employees and their departments.
 
+SELECT e.FirstName, e.LastName, d.DepartmentName
+FROM Employees AS e
+JOIN Departments AS d ON e.DepartmentID = d.DepartmentID
+
 --3. **List Employees in a Specific Location**:
 --   Retrieve the names and job titles of employees working in the "UK Branch".
+
+SELECT e.FirstName, e.LastName, e.JobTitle
+FROM Employees AS e
+JOIN OfficeLocations AS ol ON e.LocationID = ol.LocationID
+WHERE ol.LocationName = 'UK Branch'
 
 --4. **Highest Paid Employee**:
 --  Find the employee with the highest salary.
