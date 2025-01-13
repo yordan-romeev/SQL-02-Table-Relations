@@ -39,3 +39,18 @@ CREATE TABLE Projects
     [Description] NVARCHAR(250) NOT NULL,
     [Deadline] DATE NOT NULL
 )
+
+-- Create ProjectEmployees mapping table for many to many relarionship between Projects and Employees
+
+CREATE TABLE ProjectEmployees
+(
+    ProjectID INT,
+    EmployeeID INT,
+    PRIMARY KEY (ProjectID, EmployeeID),
+    CONSTRAINT FK_ProjectEmployees_Projects
+    FOREIGN KEY (ProjectID)
+    REFERENCES Projects(ProjectID),
+    CONSTRAINT FK_ProjectEmployees_Employees
+    FOREIGN KEY (EmployeeID)
+    REFERENCES Employees(EmployeeID)
+)
