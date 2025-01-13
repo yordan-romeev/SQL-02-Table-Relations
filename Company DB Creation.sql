@@ -13,9 +13,9 @@ USE Company;
 
 CREATE TABLE Departments
 (
-    [DepartmentID] INT IDENTITY(1,1) PRIMARY KEY,
+    [DepartmentID] INT PRIMARY KEY,
     [Name] NVARCHAR(50) NOT NULL,
-    [Manager] NVARCHAR(50) NOT NULL
+    [ManagerID] INT NOT NULL
 )
 
 -- Create Employees table
@@ -27,8 +27,18 @@ CREATE TABLE Employees
     [JobTitle] NVARCHAR(50) NOT NULL,
     [Email] NVARCHAR(50) NOT NULL UNIQUE,
     [DepartmentID] INT,
-    CONSTRAINT [FK_Employees_Departments] FOREIGN KEY(DepartmentID)  REFERENCES Departments(DepartmentID)
+    CONSTRAINT [FK_Employees_Departments] 
+    FOREIGN KEY(DepartmentID)  
+    REFERENCES Departments(DepartmentID)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 )
+
+-- Add foreign key constraint to Department ManagerID Column
+
+ALTER TABLE Departments
+ADD CONSTRAINT FK_Departments_Employees 
+FOREIGN KEY (ManagerID) REFERENCES Employees(EmployeeId)
 
 -- Create Projects table
 
